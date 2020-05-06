@@ -1,0 +1,15 @@
+.folderBody {
+  padding-left: 20%;
+}
+
+.folderName {
+  font-size: 15px;
+}
+
+.activeFolder {
+  font-weight: 900;
+}
+
+.unreadMailNumbers {
+  margin-left: 30%;
+}

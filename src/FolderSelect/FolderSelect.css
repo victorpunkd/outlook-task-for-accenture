@@ -1,0 +1,10 @@
+.folderSelectContainer {
+  width: 112px;
+  padding: 5% 5%;
+  background-color: white;
+}
+
+.folderName {
+  margin-top: 1%;
+  cursor: pointer;
+}

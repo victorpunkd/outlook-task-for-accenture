@@ -1,0 +1,13 @@
+.folderSectionContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.folderHeader {
+  font-size: 20px;
+}
+
+.createFolderButton {
+  margin-top: 2%;
+  font-weight: 600;
+}

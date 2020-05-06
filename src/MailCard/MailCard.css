@@ -1,0 +1,69 @@
+.mailCard {
+  width: 100%;
+  height: 65px;
+  margin-top: 1%;
+  padding-right: 2%;
+}
+
+.mailCard:hover .actionButtons {
+  visibility: visible;
+}
+
+.mailCardContainer {
+  padding-left: 10%;
+  padding-right: 1%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}
+
+.unreadMail {
+  border-left: 3px solid #0778d4;
+}
+
+.textWrap {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.mailSenderId {
+  font-size: 15px;
+  color: gray;
+  font-weight: 500;
+}
+
+.mailSubject {
+  font-size: 13px;
+  color: #0778d4;
+  font-weight: 500;
+}
+
+.mailContent {
+  font-size: 10px;
+  color: gray;
+}
+
+.actionButtons {
+  margin-top: 5%;
+  font-size: 15px;
+  visibility: hidden;
+}
+
+.actionIcons {
+  margin-right: 10%;
+  transition: color 0.3s;
+}
+
+.actionIcons:hover {
+  transition: color 0.3s;
+  color: red;
+}
+
+.mailReceievedTime {
+  text-align: right;
+  margin-top: 9%;
+  font-size: 10px;
+  font-weight: 500;
+}

@@ -1,0 +1,50 @@
+.mailDetailsContainer {
+  width: 100%;
+  height: 100%;
+  max-height: 75vh;
+  overflow: scroll;
+}
+
+.noMailToShow {
+  margin-top: 20%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.noMailIcon {
+  font-size: 100px;
+}
+
+.mailDetailsBody {
+  padding: 5% 5%;
+}
+
+.sendersInfo {
+  border-bottom: 1px solid gray;
+}
+
+.userIcon {
+  font-size: 80px;
+}
+
+.sendersId {
+  font-size: 20px;
+  margin-top: 3%;
+}
+
+.mailSubjectInMailBody {
+  font-size: 20px;
+  margin-top: 3%;
+  font-weight: 600;
+}
+
+.mailContentInMailBody {
+  margin-top: 5%;
+  font-size: 15px;
+}
+
+.folderNames {
+  position: absolute;
+  right: 148px;
+}
