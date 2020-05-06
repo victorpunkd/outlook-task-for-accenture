@@ -21,6 +21,35 @@
   border-right: 1px solid rgb(194, 189, 189, 0.5);
 }
 
+.mailListOptions {
+  padding: 2% 2%;
+  color: #0778d4;
+}
+
+.option {
+  font-size: 25px;
+  color: gray;
+}
+
+.optionActive {
+  font-weight: 600;
+  color: #0778d4;
+}
+
+.filter {
+  font-size: 15px;
+  text-align: right;
+  margin-top: 3%;
+}
+
+.filterOptionsMailsList {
+  position: absolute;
+  left: 430px;
+  color: gray;
+  padding: 0.5% 0.5%;
+  background-color: white;
+}
+
 .iconColor {
   color: #0778d4;
 }

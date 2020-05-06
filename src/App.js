@@ -18,6 +18,9 @@ export class App extends Component {
       currentSelectedFolder: 1,
       currentMails: [],
       displayMail: [],
+      mailListOption: "All",
+      filterMailListOptionsShow: false,
+      currentFilter: "",
     };
   }
   componentDidMount() {
@@ -26,7 +29,9 @@ export class App extends Component {
   }
 
   fetchFolderData = () => {
-    fetch("https://outlook-task.s3.ap-south-1.amazonaws.com/data/folder.json")
+    fetch(
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/folder.json"
+    )
       .then((res) => res.json())
       .then(
         (data) => {
@@ -44,7 +49,9 @@ export class App extends Component {
   };
 
   fetchInboxData = () => {
-    fetch("https://outlook-task.s3.ap-south-1.amazonaws.com/data/inbox.json")
+    fetch(
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/inbox.json"
+    )
       .then((res) => res.json())
       .then(
         (data) => {
@@ -74,7 +81,9 @@ export class App extends Component {
   };
 
   fetchSpamData = () => {
-    fetch("https://outlook-task.s3.ap-south-1.amazonaws.com/data/spam.json")
+    fetch(
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/spam.json"
+    )
       .then((res) => res.json())
       .then(
         (data) => {
@@ -186,6 +195,56 @@ export class App extends Component {
     });
   };
 
+  handleAllMaillistOptionClick = () => {
+    this.setState({ mailListOption: "All" });
+    let tempData = this.state.mailData.filter(
+      (element) => element.folderId === this.state.currentSelectedFolder
+    )[0].mailDetails;
+    this.setState({ currentMails: tempData });
+  };
+
+  handleUnreadMaillistOptionClick = () => {
+    this.setState({ mailListOption: "Unread" });
+    let tempData = this.state.mailData
+      .filter(
+        (element) => element.folderId === this.state.currentSelectedFolder
+      )[0]
+      .mailDetails.filter((data) => data.unread === true);
+    this.setState({ currentMails: tempData });
+  };
+
+  handleFilterClick = () => {
+    this.setState({
+      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
+    });
+  };
+
+  removeFilter = () => {
+    this.setState({ currentFilter: "" });
+    this.setState({
+      currentMails: this.state.mailData.filter(
+        (data) => data.folderId === this.state.currentSelectedFolder
+      )[0].mailDetails,
+    });
+  };
+
+  handleFilterByFlaggedClick = () => {
+    this.setState({
+      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
+    });
+    console.log(
+      this.state.mailData
+        .filter((data) => data.id === this.state.currentFolderId)[0]
+        .mailDetails.filter((data) => data.flag === true)
+    );
+    this.setState({
+      currentMails: this.state.mailData
+        .filter((data) => data.id === this.state.currentFolderId)[0]
+        .mailDetails.filter((data) => data.flag === true),
+      currentFilter: "By Flagged",
+    });
+  };
+
   addMailToFolder(mailDetails, folderId, folderName) {
     let tempData = this.state.mailData;
     let mailFolder = tempData.filter((data) => data.folderId === folderId);
@@ -259,16 +318,13 @@ export class App extends Component {
       destinationFolderId,
       folderName
     );
-    this.setState(
-      {
-        mailData: updatedData,
-        displayMail: [],
-        currentMails: this.state.mailData.filter(
-          (element) => element.folderId === 1
-        )[0].mailDetails,
-      },
-      () => console.log(this.state.currentMails)
-    );
+    this.setState({
+      mailData: updatedData,
+      displayMail: [],
+      currentMails: this.state.mailData.filter(
+        (element) => element.folderId === 1
+      )[0].mailDetails,
+    });
   };
   render() {
     const {
@@ -300,6 +356,58 @@ export class App extends Component {
               )}
             </div>
             <div className="w3-col mailLists" style={{ width: "25%" }}>
+              <div className="w3-row mailListOptions">
+                <div
+                  onClick={this.handleAllMaillistOptionClick}
+                  className={`w3-col option action ${
+                    this.state.mailListOption === "All" && "optionActive"
+                  }`}
+                  style={{ width: "20%" }}
+                >
+                  All
+                </div>
+                <div
+                  onClick={this.handleUnreadMaillistOptionClick}
+                  className={`w3-col option action ${
+                    this.state.mailListOption === "Unread" && "optionActive"
+                  }`}
+                  style={{ width: "25%" }}
+                >
+                  Unread
+                </div>
+                <div
+                  className="w3-col filter action iconColor"
+                  style={{ width: "55%" }}
+                >
+                  {this.state.currentFilter !== "" && (
+                    <span
+                      onClick={this.removeFilter}
+                      className="w3-border w3-border-black"
+                      style={{ marginRight: 10, padding: 2 }}
+                    >
+                      {this.state.currentFilter}{" "}
+                      <i className="fa fa-times w3-text-red"></i>
+                    </span>
+                  )}
+                  <span onClick={this.handleFilterClick}>
+                    Filter <i className="fa fa-angle-down"></i>
+                  </span>
+                  <div
+                    onClick={this.handleFilterByFlaggedClick}
+                    className={`filterOptionsMailsList w3-card ${
+                      !this.state.filterMailListOptionsShow && "w3-hide"
+                    }`}
+                  >
+                    <div>
+                      <i
+                        className="fa fa-flag w3-text-red"
+                        aria-hidden="true"
+                      ></i>{" "}
+                      By Flagged
+                    </div>
+                  </div>
+                </div>
+              </div>
               {isInboxDataLoaded ? (
                 <MailLists
                   currentMails={currentMails}
