@@ -1,8 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Whats needed
+
+    1. You will need to download the code in you local machine.
+    2. You need node js and npm intsalled in your machine.
+    3. Once the download is complete you need to install all the dependencys;
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run npm install which will install all the depencies needed.
+
+Now the project is ready to use.
+
+A live version of the app is hosted here - http://outook-task-for-accenture.s3-website.ap-south-1.amazonaws.com/
 
 ### `npm start`
 
