@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import "./FolderSection.css";
-import { Folder } from "../Folder/Folder";
+import Folder from "../Folder/Folder";
 
 export class FolderSection extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedFolderId: 1,
-    };
-  }
   handleFolderClick = (folderId) => {
-    this.setState({ selectedFolderId: folderId });
     this.props.FolderClicked(folderId);
   };
 
@@ -40,8 +33,7 @@ export class FolderSection extends Component {
   };
 
   render() {
-    const { selectedFolderId } = this.state;
-    const { folderDataPass } = this.props;
+    const { folderDataPass, selectedFolderId } = this.props;
     return (
       <div className="folderSectionContainer">
         <div className="folderHeader action">

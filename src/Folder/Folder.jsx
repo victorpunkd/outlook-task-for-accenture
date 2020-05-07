@@ -1,30 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Folder.css";
 
-export class Folder extends Component {
-  render() {
-    const { folderId, folderName, selectedFolderId } = this.props;
-    return (
+function Folder(props) {
+  const { folderId, folderName, selectedFolderId } = props;
+  return (
+    <div
+      key={folderId}
+      className="folderBody"
+      onClick={() => props.folderClicked(folderId)}
+    >
       <div
-        key={folderId}
-        className="folderBody"
-        onClick={() => this.props.folderClicked(folderId)}
+        className={`folderName action ${
+          selectedFolderId === folderId && "activeFolder"
+        }`}
       >
-        <div
-          className={`folderName action ${
-            selectedFolderId === folderId ? "activeFolder" : ""
-          }`}
-        >
-          {folderName}
-          <span className="unreadMailNumbers">
-            {this.props.countOfUnreadMails === 0
-              ? ""
-              : this.props.countOfUnreadMails}
-          </span>
-        </div>
+        {folderName}
+        <span className="unreadMailNumbers">
+          {props.countOfUnreadMails === 0 ? "" : props.countOfUnreadMails}
+        </span>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Folder;

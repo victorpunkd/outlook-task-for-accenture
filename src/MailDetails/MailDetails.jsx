@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./MailDetails.css";
-import { FolderSelect } from "../FolderSelect/FolderSelect";
+import FolderSelect from "../FolderSelect/FolderSelect";
 
 export class MailDetails extends Component {
   constructor() {
@@ -72,7 +72,7 @@ export class MailDetails extends Component {
                 className="w3-col"
                 style={{ width: "15%", textAlign: "right" }}
               >
-                <i class="fa fa-ellipsis-v action" aria-hidden="true"></i>
+                <i className="fa fa-ellipsis-v action" aria-hidden="true"></i>
               </div>
             </div>
             <div className="mailContentInMailBody">

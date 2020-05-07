@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import { NavBar } from "./NavBar/NavBar";
-import { ActionBar } from "./ActionBar/ActionBar";
+import NavBar from "./NavBar/NavBar";
+import ActionBar from "./ActionBar/ActionBar";
 import { FolderSection } from "./FolderSection/FolderSection";
-import { MailLists } from "./MailLists/MailLists";
+import MailLists from "./MailLists/MailLists";
 import { MailDetails } from "./MailDetails/MailDetails";
 
 export class App extends Component {
@@ -102,7 +102,24 @@ export class App extends Component {
       );
   };
 
-  //All the folder actions start
+  //All the ActionBar events starts here
+
+  handleMarkAllReadClick = () => {
+    let copyofMaildata = this.state.mailData;
+    for (let i in copyofMaildata) {
+      if (copyofMaildata[i].folderId === this.state.currentSelectedFolder) {
+        for (let j in copyofMaildata[i].mailDetails) {
+          copyofMaildata[i].mailDetails[j].unread = false;
+        }
+        break;
+      }
+    }
+    this.setState({ mailData: copyofMaildata });
+  };
+
+  //All the ActionBar events ends here
+
+  //All the folder actions starts here
 
   handleFolderClicked = (folderId) => {
     let mailsInsideFolder = this.state.mailData.filter(
@@ -125,7 +142,70 @@ export class App extends Component {
     this.setState({ folderData: [...tempData] });
   };
 
-  //All the folder actions end
+  //All the folder actions ends here
+
+  //All mail lists non component action starts here
+
+  handleAllMaillistOptionClick = () => {
+    this.setState({ mailListOption: "All" });
+    let tempData = this.state.mailData.filter(
+      (element) => element.folderId === this.state.currentSelectedFolder
+    )[0].mailDetails;
+    this.setState({ currentMails: tempData });
+  };
+
+  handleUnreadMaillistOptionClick = () => {
+    this.setState({ mailListOption: "Unread" });
+    let tempData = this.state.mailData
+      .filter(
+        (element) => element.folderId === this.state.currentSelectedFolder
+      )[0]
+      .mailDetails.filter((data) => data.unread === true);
+    this.setState({ currentMails: tempData });
+  };
+
+  handleRemoveSelectedFilterClick = () => {
+    this.setState({ currentFilter: "" });
+    this.setState({
+      currentMails: this.state.mailData.filter(
+        (data) => data.folderId === this.state.currentSelectedFolder
+      )[0].mailDetails,
+    });
+  };
+
+  handleFilterMailListOptionClick = () => {
+    this.setState({
+      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
+    });
+  };
+
+  handleApplyFilterByFlaggedClick = () => {
+    this.setState({
+      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
+    });
+    this.setState({
+      currentMails: this.state.mailData
+        .filter((data) => data.folderId === this.state.currentSelectedFolder)[0]
+        .mailDetails.filter((data) => data.flag === true),
+      currentFilter: "By Flagged",
+    });
+  };
+
+  //All mail litsts non component action ends here
+
+  //All mail litsts component action starts here
+
+  handleUnreadMailClick = (mailId) => {
+    this.setState({
+      mailData: this.updateMailPropertyValue(
+        mailId,
+        this.state.mailData,
+        "unread",
+        true,
+        this.state.currentSelectedFolder
+      ),
+    });
+  };
 
   handleDeleteMailClick = (mailId) => {
     if (this.state.currentSelectedFolder === 3) {
@@ -156,7 +236,7 @@ export class App extends Component {
 
   handleFlagMailClick = (mailId, currentValue) => {
     this.setState({
-      mailData: this.changeMailProperty(
+      mailData: this.updateMailPropertyValue(
         mailId,
         this.state.mailData,
         "flag",
@@ -164,23 +244,12 @@ export class App extends Component {
         this.state.currentSelectedFolder
       ),
     });
-  };
-
-  handleUnreadMailClick = (mailId) => {
-    this.setState({
-      mailData: this.changeMailProperty(
-        mailId,
-        this.state.mailData,
-        "unread",
-        true,
-        this.state.currentSelectedFolder
-      ),
-    });
+    this.handleRemoveSelectedFilterClick();
   };
 
   handleMailClick = (mailId) => {
     this.setState({
-      mailData: this.changeMailProperty(
+      mailData: this.updateMailPropertyValue(
         mailId,
         this.state.mailData,
         "unread",
@@ -195,55 +264,34 @@ export class App extends Component {
     });
   };
 
-  handleAllMaillistOptionClick = () => {
-    this.setState({ mailListOption: "All" });
-    let tempData = this.state.mailData.filter(
-      (element) => element.folderId === this.state.currentSelectedFolder
-    )[0].mailDetails;
-    this.setState({ currentMails: tempData });
-  };
+  //All mail litsts component action ends here
 
-  handleUnreadMaillistOptionClick = () => {
-    this.setState({ mailListOption: "Unread" });
-    let tempData = this.state.mailData
-      .filter(
-        (element) => element.folderId === this.state.currentSelectedFolder
-      )[0]
-      .mailDetails.filter((data) => data.unread === true);
-    this.setState({ currentMails: tempData });
-  };
+  //All mail details actions start here
 
-  handleFilterClick = () => {
-    this.setState({
-      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
-    });
-  };
-
-  removeFilter = () => {
-    this.setState({ currentFilter: "" });
-    this.setState({
-      currentMails: this.state.mailData.filter(
-        (data) => data.folderId === this.state.currentSelectedFolder
-      )[0].mailDetails,
-    });
-  };
-
-  handleFilterByFlaggedClick = () => {
-    this.setState({
-      filterMailListOptionsShow: !this.state.filterMailListOptionsShow,
-    });
-    console.log(
-      this.state.mailData
-        .filter((data) => data.id === this.state.currentFolderId)[0]
-        .mailDetails.filter((data) => data.flag === true)
+  handleMoveToFolderNameClick = (
+    destinationFolderId,
+    mailIdtoMove,
+    folderName
+  ) => {
+    let mailtoBeMoved = this.removeMailFromFolder(
+      mailIdtoMove,
+      this.state.currentSelectedFolder
+    );
+    let updatedData = this.addMailToFolder(
+      mailtoBeMoved,
+      destinationFolderId,
+      folderName
     );
     this.setState({
-      currentMails: this.state.mailData
-        .filter((data) => data.id === this.state.currentFolderId)[0]
-        .mailDetails.filter((data) => data.flag === true),
-      currentFilter: "By Flagged",
+      mailData: updatedData,
+      displayMail: [],
+      currentMails: this.state.mailData.filter(
+        (element) => element.folderId === 1
+      )[0].mailDetails,
+      currentSelectedFolder: 1,
     });
   };
+  //All mail details actions end here
 
   addMailToFolder(mailDetails, folderId, folderName) {
     let tempData = this.state.mailData;
@@ -277,7 +325,7 @@ export class App extends Component {
     return deletedMail;
   }
 
-  changeMailProperty = (
+  updateMailPropertyValue = (
     mailId,
     mailData,
     propertyName,
@@ -304,28 +352,6 @@ export class App extends Component {
     return mailData;
   };
 
-  handleMoveToFolderNameClick = (
-    destinationFolderId,
-    mailIdtoMove,
-    folderName
-  ) => {
-    let mailtoBeMoved = this.removeMailFromFolder(
-      mailIdtoMove,
-      this.state.currentSelectedFolder
-    );
-    let updatedData = this.addMailToFolder(
-      mailtoBeMoved,
-      destinationFolderId,
-      folderName
-    );
-    this.setState({
-      mailData: updatedData,
-      displayMail: [],
-      currentMails: this.state.mailData.filter(
-        (element) => element.folderId === 1
-      )[0].mailDetails,
-    });
-  };
   render() {
     const {
       folderData,
@@ -341,12 +367,13 @@ export class App extends Component {
       return (
         <div className="App">
           <NavBar />
-          <ActionBar />
+          <ActionBar markAllReadClicked={this.handleMarkAllReadClick} />
           <div className="workArea w3-row">
             <div className="w3-col folders" style={{ width: "17%" }}>
               {isFolderDataLoaded && isInboxDataLoaded && isSpamDataLoaded ? (
                 <FolderSection
                   folderDataPass={folderData}
+                  selectedFolderId={this.state.currentSelectedFolder}
                   FolderClicked={this.handleFolderClicked}
                   createNewFolder={this.handleCreateNewFolderClick}
                   mailDetails={this.state.mailData}
@@ -381,7 +408,7 @@ export class App extends Component {
                 >
                   {this.state.currentFilter !== "" && (
                     <span
-                      onClick={this.removeFilter}
+                      onClick={this.handleRemoveSelectedFilterClick}
                       className="w3-border w3-border-black"
                       style={{ marginRight: 10, padding: 2 }}
                     >
@@ -389,11 +416,11 @@ export class App extends Component {
                       <i className="fa fa-times w3-text-red"></i>
                     </span>
                   )}
-                  <span onClick={this.handleFilterClick}>
+                  <span onClick={this.handleFilterMailListOptionClick}>
                     Filter <i className="fa fa-angle-down"></i>
                   </span>
                   <div
-                    onClick={this.handleFilterByFlaggedClick}
+                    onClick={this.handleApplyFilterByFlaggedClick}
                     className={`filterOptionsMailsList w3-card ${
                       !this.state.filterMailListOptionsShow && "w3-hide"
                     }`}
