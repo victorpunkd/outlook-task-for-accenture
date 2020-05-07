@@ -1,0 +1,9 @@
+.composeMailContent {
+  background-color: white;
+  padding: 2% 2%;
+  z-index: 10;
+}
+
+.elements {
+  margin-top: 2%;
+}

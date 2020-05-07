@@ -12,7 +12,11 @@ function ActionBar(props) {
         <i className="fa fa-search iconColor action" aria-hidden="true"></i>
       </div>
       <div className="w3-col section w3-row" style={{ width: "83%" }}>
-        <div className="action w3-col" style={{ width: "8%" }}>
+        <div
+          className="action w3-col"
+          style={{ width: "8%" }}
+          onClick={props.newMailClicked}
+        >
           <i className="fa fa-plus-circle iconColor"></i> New |{" "}
           <i className="fa fa-angle-down"></i>
         </div>

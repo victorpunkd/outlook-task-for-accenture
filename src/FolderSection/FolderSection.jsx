@@ -3,6 +3,12 @@ import "./FolderSection.css";
 import Folder from "../Folder/Folder";
 
 export class FolderSection extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isFolderShow: true,
+    };
+  }
   handleFolderClick = (folderId) => {
     this.props.FolderClicked(folderId);
   };
@@ -32,23 +38,41 @@ export class FolderSection extends Component {
     return count;
   };
 
+  handleFolderShowClick = () => {
+    this.setState({ isFolderShow: !this.state.isFolderShow });
+  };
+
   render() {
     const { folderDataPass, selectedFolderId } = this.props;
     return (
       <div className="folderSectionContainer">
-        <div className="folderHeader action">
-          <i className="fa fa-angle-down"></i> Folders
+        <div
+          className="folderHeader action"
+          onClick={this.handleFolderShowClick}
+        >
+          <i
+            className={`fa ${
+              this.state.isFolderShow ? "fa-angle-down" : "fa-angle-up"
+            }`}
+          ></i>{" "}
+          Folders
         </div>
-        {folderDataPass.map((data) => (
-          <Folder
-            key={data.id}
-            folderId={data.id}
-            folderName={data.folderName}
-            selectedFolderId={selectedFolderId}
-            countOfUnreadMails={this.getCountOfUnreadMails(data.id)}
-            folderClicked={this.handleFolderClick}
-          />
-        ))}
+        <div
+          className={`w3-animate-left ${
+            this.state.isFolderShow ? "" : "w3-hide"
+          }`}
+        >
+          {folderDataPass.map((data) => (
+            <Folder
+              key={data.id}
+              folderId={data.id}
+              folderName={data.folderName}
+              selectedFolderId={selectedFolderId}
+              countOfUnreadMails={this.getCountOfUnreadMails(data.id)}
+              folderClicked={this.handleFolderClick}
+            />
+          ))}
+        </div>
         <div
           className="createFolderButton iconColor action"
           onClick={this.handleCreateFolderClick}

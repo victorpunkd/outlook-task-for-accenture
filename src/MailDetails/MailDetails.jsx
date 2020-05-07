@@ -25,7 +25,10 @@ export class MailDetails extends Component {
   render() {
     const { mailToDisplay } = this.props;
     return (
-      <div className="mailDetailsContainer">
+      <div
+        key={mailToDisplay.mId}
+        className="mailDetailsContainer w3-animate-zoom"
+      >
         {mailToDisplay.length <= 0 ? (
           <div className="noMailToShow">
             <div className="noMailIcon">
@@ -44,6 +47,15 @@ export class MailDetails extends Component {
               </div>
               <div className="w3-col" style={{ width: "50%" }}>
                 <div className="sendersId">{mailToDisplay[0].sendersId}</div>
+                <div>{mailToDisplay[0].sendersName}</div>
+                <div>
+                  <span className="w3-small">
+                    <b>Recieved On</b> {mailToDisplay[0].recievedDate}
+                  </span>
+                  <span className="w3-small" style={{ marginLeft: 10 }}>
+                    <b>at</b> {mailToDisplay[0].recievedTime}
+                  </span>
+                </div>
                 <div className="mailSubjectInMailBody iconColor">
                   {mailToDisplay[0].subject}
                 </div>
@@ -67,12 +79,6 @@ export class MailDetails extends Component {
                     />
                   )}
                 </div>
-              </div>
-              <div
-                className="w3-col"
-                style={{ width: "15%", textAlign: "right" }}
-              >
-                <i className="fa fa-ellipsis-v action" aria-hidden="true"></i>
               </div>
             </div>
             <div className="mailContentInMailBody">

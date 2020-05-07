@@ -11,14 +11,21 @@ function MailCard(props) {
     unread,
   } = props.mailData;
   return (
-    <div className={`mailCard w3-row ${unread && "unreadMail"} action`}>
+    <div
+      key={mId}
+      className={`mailCard w3-row ${
+        unread && "unreadMail"
+      } w3-animate-bottom action`}
+    >
       <div
         onClick={() => props.mailClicked(mId)}
         className="mailCardContainer w3-col"
         style={{ width: "80%" }}
       >
         <div className="mailSenderId textWrap">{sendersId}</div>
-        <div className="mailSubject textWrap">{subject}</div>
+        <div className={`mailSubject textWrap ${unread || "unreadSubject"}`}>
+          {subject}
+        </div>
         <div className="mailContent textWrap">{content}</div>
       </div>
       <div className="w3-col" style={{ width: "20%" }}>

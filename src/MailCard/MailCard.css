@@ -20,6 +20,10 @@
   border-left: 3px solid #0778d4;
 }
 
+.unreadSubject {
+  color: gray !important;
+}
+
 .textWrap {
   white-space: nowrap;
   width: 100%;
@@ -52,7 +56,7 @@
 }
 
 .actionIcons {
-  margin-right: 10%;
+  margin-left: 10%;
   transition: color 0.3s;
 }
 

@@ -18,7 +18,7 @@ function MailLists(props) {
           />
         ))
       ) : (
-        <div>No mail under this folder</div>
+        <div className="loading">No mail under this folder</div>
       )}
     </div>
   );
