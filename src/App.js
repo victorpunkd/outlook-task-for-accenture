@@ -32,7 +32,7 @@ export class App extends Component {
 
   fetchFolderData = () => {
     fetch(
-      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/folder.json"
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-staticfiles/outlook-for-accenture-files/folder.json"
     )
       .then((res) => res.json())
       .then(
@@ -52,7 +52,7 @@ export class App extends Component {
 
   fetchInboxData = () => {
     fetch(
-      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/inbox.json"
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-staticfiles/outlook-for-accenture-files/inbox.json"
     )
       .then((res) => res.json())
       .then(
@@ -84,7 +84,7 @@ export class App extends Component {
 
   fetchSpamData = () => {
     fetch(
-      "https://s3.ap-south-1.amazonaws.com/victordeb.me-files/outlook-for-accenture-files/spam.json"
+      "https://s3.ap-south-1.amazonaws.com/victordeb.me-staticfiles/outlook-for-accenture-files/spam.json"
     )
       .then((res) => res.json())
       .then(
